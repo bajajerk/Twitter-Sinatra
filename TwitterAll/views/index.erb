@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Twitter</title>
+</head>
+<body>
+
+
+<form action="/create_tweet" method="POST">
+
+<label> Content </label>
+<textarea name="content"></textarea>
+<br>
+
+<input type="submit" name="submit" value="Create Tweet">
+
+</form>
+
+
+<br>
+
+ 
+<ul>
+<% tweets.each do |tweet| %>
+<li>
+<% who=User.all(id: tweet.user_id).first %>
+<%= who.email %>
+tweeted <%= tweet.content %>, Likes: <%= tweet.like_count %>, 
+
+<form action="/like" method="POST">
+	<input type="hidden" name="tweet_id" value="<%=tweet.id %>">
+
+	<% if tweet.liked_by user_id %>
+	<input type="submit" name="submit" value="UnLike">
+
+	<% else %>
+
+<input type="submit" name="submit" value="Like">
+	<% end %>
+</form>
+
+<form action="/delete" method="POST">
+<input type="hidden" name="tweet_id" value="<%=tweet.id%>">
+<% print tweet.user_id ," ",user_id,"...." %>
+<% if tweet.user_id.to_i==user_id.to_i %>
+<input type="submit" name="del" value="Delete tweet">
+<% end %>
+</form>
+
+
+</li>
+
+
+
+<% end %>
+
+</ul>
+
+
+</body>
+</html>
